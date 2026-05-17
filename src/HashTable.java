@@ -1,11 +1,10 @@
 import java.util.LinkedList;
 
-
 public class HashTable {
 
     private static final int DEFAULT_CAPACITY = 16;
-    private LinkedList<Student>[] buckets;           
-    private int size;                                 
+    private LinkedList<Student>[] buckets;
+    private int size;
 
     @SuppressWarnings("unchecked")
     public HashTable(int capacity) {
@@ -44,7 +43,7 @@ public class HashTable {
 
         bucket.add(student);
         size++;
-        return true; 
+        return true;
     }
 
     public Student search(String nim) {
@@ -74,26 +73,43 @@ public class HashTable {
     }
 
     public void displayAll() {
-        System.out.println("\n");
+        System.out.println();
         System.out.println("ISI HASH TABLE (SEMUA DATA MAHASISWA)");
+        printTableLine();
+        System.out.println("| Bucket | NIM        | Nama                 | IPK  |");
+        printTableLine();
 
         boolean empty = true;
         for (int i = 0; i < buckets.length; i++) {
             if (!buckets[i].isEmpty()) {
                 empty = false;
-                System.out.printf("║ Bucket[%2d] → ", i);
                 for (Student s : buckets[i]) {
-                    System.out.println(s);
-                    System.out.printf("║            → ", i);
+                    System.out.printf("| %6d | %-10s | %-20s | %4.2f |%n",
+                            i, fit(s.getNim(), 10), fit(s.getName(), 20), s.getGpa());
                 }
             }
         }
 
         if (empty) {
-            System.out.println("(Tidak ada data)");
+            System.out.println("|   --   | --         | Tidak ada data       | --   |");
         }
-        System.out.printf("Total mahasiswa tersimpan: %-33d | %n", size);
-        System.out.println("");
+
+        printTableLine();
+        System.out.printf("Total mahasiswa tersimpan: %d%n%n", size);
+    }
+
+    private void printTableLine() {
+        System.out.println("+--------+------------+----------------------+------+");
+    }
+
+    private String fit(String text, int width) {
+        if (text == null) {
+            return "";
+        }
+        if (text.length() <= width) {
+            return text;
+        }
+        return text.substring(0, width - 3) + "...";
     }
 
     public void displayStats() {
@@ -122,7 +138,11 @@ public class HashTable {
         System.out.printf("- Rantai terpanjang      : %d%n", maxChain);
     }
 
-    public int getSize() { return size; }
+    public int getSize() {
+        return size;
+    }
 
-    public boolean isEmpty() { return size == 0; }
+    public boolean isEmpty() {
+        return size == 0;
+    }
 }
