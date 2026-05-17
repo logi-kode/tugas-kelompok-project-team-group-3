@@ -6,10 +6,12 @@ public class Main {
     private static BST bst = new BST();
     private static Scanner sc = new Scanner(System.in);
 
-        private static void menuTambah() {
-        System.out.println("\n── TAMBAH MAHASISWA ──");
-        System.out.print("NIM   : "); String nim = sc.nextLine().trim();
-        System.out.print("Nama  : "); String nama = sc.nextLine().trim();
+    private static void menuTambah() {
+        System.out.println("\n== TAMBAH MAHASISWA ==");
+        System.out.print("NIM   : ");
+        String nim = sc.nextLine().trim();
+        System.out.print("Nama  : ");
+        String nama = sc.nextLine().trim();
         double ipk = readDouble("IPK (0.00 - 4.00): ");
 
         if (ipk < 0 || ipk > 4.0) {
@@ -28,7 +30,7 @@ public class Main {
     }
 
     private static void menuCari() {
-        System.out.println("\n── CARI MAHASISWA ──");
+        System.out.println("\n== CARI MAHASISWA ==");
         System.out.print("Masukkan NIM: ");
         String nim = sc.nextLine().trim();
 
@@ -43,7 +45,7 @@ public class Main {
     }
 
     private static void menuHapus() {
-        System.out.println("\n── HAPUS MAHASISWA ──");
+        System.out.println("\n== HAPUS MAHASISWA ==");
         System.out.print("Masukkan NIM yang akan dihapus: ");
         String nim = sc.nextLine().trim();
 
@@ -58,13 +60,13 @@ public class Main {
     }
 
     private static void menuFilterIPK() {
-        System.out.println("\n── FILTER MAHASISWA BY IPK ──");
+        System.out.println("\n== FILTER MAHASISWA BY IPK ==");
         double threshold = readDouble("Tampilkan mahasiswa dengan IPK di atas: ");
         bst.displayAboveGpa(threshold);
     }
 
     private static void loadSampleData() {
-        System.out.println("\n⏳ Memuat 15 data mahasiswa awal...");
+        System.out.println("\nMemuat 15 data mahasiswa awal...");
 
         Student[] samples = {
             new Student("2021001", "Andi Pratama",       3.75),
@@ -89,7 +91,7 @@ public class Main {
             bst.insert(s);
         }
 
-        System.out.println("✅ 15 data mahasiswa berhasil dimuat.\n");
+        System.out.println("15 data mahasiswa berhasil dimuat.\n");
     }
 
     private static void printMenu() {
@@ -110,10 +112,9 @@ public class Main {
         while (true) {
             System.out.print(prompt);
             try {
-                int val = Integer.parseInt(sc.nextLine().trim());
-                return val;
+                return Integer.parseInt(sc.nextLine().trim());
             } catch (NumberFormatException e) {
-                System.out.println("❌ Masukkan angka bulat yang valid.");
+                System.out.println("[ERROR] Masukkan angka bulat yang valid.");
             }
         }
     }
@@ -122,12 +123,17 @@ public class Main {
         while (true) {
             System.out.print(prompt);
             try {
-                double val = Double.parseDouble(sc.nextLine().trim());
-                return val;
+                return Double.parseDouble(sc.nextLine().trim());
             } catch (NumberFormatException e) {
-                System.out.println("❌ Masukkan angka desimal yang valid (gunakan titik, contoh: 3.75).");
+                System.out.println("[ERROR] Masukkan angka desimal yang valid (gunakan titik, contoh: 3.75).");
             }
         }
+    }
+
+    private static void pauseBeforeBackToMenu() {
+        System.out.print("\nTekan Enter untuk kembali ke menu...");
+        sc.nextLine();
+        System.out.println();
     }
 
     public static void main(String[] args) {
@@ -142,20 +148,50 @@ public class Main {
             int choice = readInt("Pilih menu: ");
 
             switch (choice) {
-                case 1 -> menuTambah();
-                case 2 -> menuCari();
-                case 3 -> menuHapus();
-                case 4 -> hashTable.displayAll();
-                case 5 -> bst.displayDescending();
-                case 6 -> bst.displayAscending();
-                case 7 -> menuFilterIPK();
-                case 8 -> bst.displayTree();
-                case 9 -> hashTable.displayStats();
+                case 1 -> {
+                    menuTambah();
+                    pauseBeforeBackToMenu();
+                }
+                case 2 -> {
+                    menuCari();
+                    pauseBeforeBackToMenu();
+                }
+                case 3 -> {
+                    menuHapus();
+                    pauseBeforeBackToMenu();
+                }
+                case 4 -> {
+                    hashTable.displayAll();
+                    pauseBeforeBackToMenu();
+                }
+                case 5 -> {
+                    bst.displayDescending();
+                    pauseBeforeBackToMenu();
+                }
+                case 6 -> {
+                    bst.displayAscending();
+                    pauseBeforeBackToMenu();
+                }
+                case 7 -> {
+                    menuFilterIPK();
+                    pauseBeforeBackToMenu();
+                }
+                case 8 -> {
+                    bst.displayTree();
+                    pauseBeforeBackToMenu();
+                }
+                case 9 -> {
+                    hashTable.displayStats();
+                    pauseBeforeBackToMenu();
+                }
                 case 0 -> {
                     System.out.println("\nTerima kasih! Program selesai.");
                     running = false;
                 }
-                default -> System.out.println("❌ Pilihan tidak valid. Coba lagi.");
+                default -> {
+                    System.out.println("[ERROR] Pilihan tidak valid. Coba lagi.");
+                    pauseBeforeBackToMenu();
+                }
             }
         }
 
